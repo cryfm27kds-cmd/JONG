@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDIO_K | ARCHITECTURAL VISION</title>
+    
+    <!-- Google Fonts: Inter & Syne for ultimate premium editorial feeling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Three.js for Interactive 3D Model -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    colors: {
+                        architect: {
+                            bg: '#0a0a0c',
+                            card: '#121216',
+                            accent: '#3b82f6', // Premium Neon Blue Accent
+                            accentRed: '#f43f5e',
+                            textMuted: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Premium Aesthetics to avoid generic templates */
+        body {
+            background-color: #050507;
+            color: #ffffff;
+        }
+        
+        /* Modern minimalist scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050507;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+
+        /* Non-PPT Fluid Grids and Hover effects */
+        .project-card-image {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card:hover .project-card-image {
+            transform: scale(1.08);
+        }
+
+        /* Ambient Glow effect for immersive feel */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Smooth custom active transitions */
+        .custom-transition {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+    <!-- AMBIENT GRAPHICS -->
+    <div class="ambient-glow top-1/4 left-10"></div>
+    <div class="ambient-glow top-3/4 -right-10"></div>
+
+    <!-- FLOATING BRAND HEADER -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-[#050507]/60 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-full mx-auto flex justify-between items-center h-20 px-6 md:px-12">
+            <!-- Brand Identity -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <span class="font-display text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-architect-accent custom-transition">
+                    STUDIO_K
+                </span>
+                <span class="h-1.5 w-1.5 bg-architect-accent rounded-full animate-ping"></span>
+                <span class="hidden sm:inline-block text-[10px] tracking-widest text-architect-textMuted uppercase border border-white/10 px-2 py-0.5 rounded font-mono">
+                    SEOUL_LAB
+                </span>
+            </a>
+
+            <!-- Fluid Navigation Menu -->
+            <nav class="hidden md:flex items-center space-x-1 font-mono text-xs tracking-wider">
+                <a href="#lab" class="px-5 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-full custom-transition">
+                    01 // 3D LAB
+                </a>
+                <a href="#editorial" class="px-5 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-full custom-transition">
+                    02 // ARCHIVES
+                </a>
+                <a href="#manifesto" class="px-5 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-full custom-transition">
+                    03 // PHILOSOPHY
+                </a>
+                <a href="#contact" class="px-5 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-full custom-transition">
+                    04 // TALK
+                </a>
+            </nav>
+
+            <!-- Compact Contact Link -->
+            <div class="hidden lg:flex items-center">
+                <a href="#contact" class="text-xs font-mono border border-white/20 hover:border-architect-accent px-5 py-2.5 rounded-full custom-transition bg-white/5 hover:bg-architect-accent hover:text-white">
+                    INQUIRE PROJECT
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 text-white hover:text-architect-accent custom-transition" aria-label="Toggle Menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dynamic Drawer Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-white/5 bg-[#050507]/95 backdrop-blur-lg">
+            <div class="flex flex-col p-6 space-y-4 font-mono text-sm">
+                <a href="#lab" class="py-2 text-white/70 hover:text-white flex justify-between"><span>01 // 3D MODEL LAB</span> <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                <a href="#editorial" class="py-2 text-white/70 hover:text-white flex justify-between"><span>02 // PROJECT ARCHIVES</span> <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                <a href="#manifesto" class="py-2 text-white/70 hover:text-white flex justify-between"><span>03 // MANIFESTO</span> <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                <a href="#contact" class="py-2 text-white/70 hover:text-white flex justify-between"><span>04 // INQUIRE</span> <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- IMMERSIVE EDITORIAL HERO SECTION -->
+    <section class="relative min-h-screen flex items-end justify-start pt-32 pb-16 md:pb-24 px-6 md:px-12 lg:px-20 overflow-hidden">
+        <!-- Interactive Full Background Visual Layer (Unsplash Architectural Render) -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/40 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80" 
+                 alt="Immersive architectural render" 
+                 class="w-full h-full object-cover opacity-30 select-none scale-105 pointer-events-none animate-[pulse_8s_infinite_alternate]"
+                 onerror="this.src='https://placehold.co/1920x1080/0d0d11/888?text=STUDIO_K+WORKSPACE'">
+        </div>
+
+        <div class="relative z-20 max-w-7xl w-full">
+            <!-- Overlapping, Large Editorial Typography -->
+            <div class="space-y-4">
+                <div class="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-mono tracking-widest text-architect-accent">
+                    <span class="w-2 h-2 rounded-full bg-architect-accent animate-pulse"></span>
+                    <span>BEYOND TRADITIONAL PRESENTATIONS</span>
+                </div>
+                
+                <h1 class="font-display text-5xl md:text-8xl lg:text-9xl font-black tracking-tight leading-[0.9] uppercase">
+                    EVOLVING <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-architect-accent via-blue-400 to-white">SPATIAL</span> <br>
+                    DYNAMICS.
+                </h1>
+            </div>
+
+            <!-- Asymmetric Editorial Description and Stats Grid -->
+            <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 pt-10 border-t border-white/10">
+                <div class="lg:col-span-6">
+                    <p class="text-lg md:text-xl text-zinc-300 leading-relaxed max-w-2xl font-light">
+                        우리는 건축을 단지 정적인 피피티 슬라이드로 설명하지 않습니다. 대지와 기후, 사람들의 동선에 반응하여 스스로 숨 쉬고 진화하는 입체적 생태적 볼륨을 탐구합니다.
+                    </p>
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <a href="#editorial" class="px-8 py-4 bg-architect-accent hover:bg-blue-600 text-white rounded-full font-bold text-sm custom-transition flex items-center space-x-3 shadow-lg shadow-blue-500/20">
+                            <span>EXPLORE ARCHIVES</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#lab" class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/20 rounded-full font-mono text-xs custom-transition flex items-center space-x-2">
+                            <span>RUN 3D BENCHMARK</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Live Digital Dashboard Stats -->
+                <div class="lg:col-span-6 grid grid-cols-3 gap-4 lg:pl-12">
+                    <div class="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                        <span class="block text-3xl md:text-4xl font-display font-black text-architect-accent">24+</span>
+                        <span class="text-[10px] text-zinc-500 font-mono tracking-wider uppercase block mt-2">GLOBAL LABS</span>
+                    </div>
+                    <div class="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                        <span class="block text-3xl md:text-4xl font-display font-black text-white">450K</span>
+                        <span class="text-[10px] text-zinc-500 font-mono tracking-wider uppercase block mt-2">SQ. METERS</span>
+                    </div>
+                    <div class="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                        <span class="block text-3xl md:text-4xl font-display font-black text-emerald-400">0.0</span>
+                        <span class="text-[10px] text-zinc-500 font-mono tracking-wider uppercase block mt-2">CARBON TARGET</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMMERSIVE 3D WORKBENCH LAB (No PPT Slides) -->
+    <section id="lab" class="relative py-24 md:py-32 border-t border-white/5 bg-[#08080a]">
+        <div class="max-w-full mx-auto px-6 md:px-12 lg:px-20">
+            
+            <!-- Section Header -->
+            <div class="max-w-3xl mb-16">
+                <span class="text-xs font-mono tracking-widest text-zinc-500 uppercase">// INTERACTIVE DIGITAL SANDBOX</span>
+                <h2 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tight mt-3">
+                    FORM EVOLUTION LAB
+                </h2>
+                <p class="text-sm md:text-base text-zinc-400 mt-4 leading-relaxed">
+                    슬라이드 버튼 대신 타임라인 컨트롤러를 사용하여 기본 건축 매스(Mass)가 기후 일조 분석 및 야외 녹지 공간 확보를 위해 입체적으로 깎여나가는 물리 변형 시뮬레이션을 제어해 보세요.
+                </p>
+            </div>
+
+            <!-- Immersive Sandbox Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <!-- Left Floating HUD & Controls Panel (Looks like specialized architecture software) -->
+                <div class="lg:col-span-4 flex flex-col justify-between space-y-8 bg-zinc-950/60 border border-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-md z-10 relative">
+                    
+                    <!-- Top HUD Indicators -->
+                    <div>
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                            <span class="font-mono text-xs tracking-wider text-architect-textMuted uppercase">SANDBOX PARAMETERS</span>
+                            <span class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+                        </div>
+
+                        <!-- Morph Timeline Controller -->
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between text-xs font-mono text-zinc-400 mb-2">
+                                    <span>MORPH STAGE</span>
+                                    <span id="active-stage-label" class="text-architect-accent font-bold">STAGE 01</span>
+                                </div>
+                                
+                                <!-- Sleek Range Slider replaces PPT Buttons -->
+                                <input type="range" id="form-slider" min="1" max="4" value="1" step="1" 
+                                       class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-architect-accent focus:outline-none"
+                                       oninput="handleSliderChange(this.value)">
+                                
+                                <div class="flex justify-between text-[10px] font-mono text-zinc-600 mt-2">
+                                    <span>01 / BASE</span>
+                                    <span>02 / SLICE</span>
+                                    <span>03 / TERRACE</span>
+                                    <span>04 / GREEN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Parameter Outputs -->
+                        <div class="mt-8 space-y-4">
+                            <div class="flex justify-between text-xs font-mono border-b border-white/5 py-2">
+                                <span class="text-zinc-500">Mass Volume</span>
+                                <span id="param-mass" class="text-white">100% (Solid Cube)</span>
+                            </div>
+                            <div class="flex justify-between text-xs font-mono border-b border-white/5 py-2">
+                                <span class="text-zinc-500">Solar Exposure</span>
+                                <span id="param-solar" class="text-white">Moderate (45%)</span>
+                            </div>
+                            <div class="flex justify-between text-xs font-mono border-b border-white/5 py-2">
+                                <span class="text-zinc-500">Carbon Sequester</span>
+                                <span id="param-carbon" class="text-white">Negligible</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Code Log / Dynamic Interpretation -->
+                    <div class="bg-black/50 p-5 rounded-2xl border border-white/5">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <i data-lucide="terminal" class="w-4 h-4 text-architect-accent"></i>
+                            <span class="font-mono text-[10px] tracking-widest text-zinc-400 uppercase">LIVE DIAGRAM INTERPRETATION</span>
+                        </div>
+                        <p id="analysis-log" class="text-xs text-zinc-300 leading-relaxed font-mono">
+                            READY. Use timeline slider to deform physical model data...
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Right 3D Full Width Screen Container -->
+                <div class="lg:col-span-8 min-h-[500px] lg:min-h-[650px] relative bg-black/60 border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+                    <div id="canvas-container" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"></div>
+                    
+                    <!-- Sleek Canvas Floating Utilities -->
+                    <div class="absolute top-6 right-6 flex items-center space-x-2 pointer-events-auto">
+                        <button onclick="autoRotateToggle()" id="btn-rotate" class="px-4 py-2 bg-zinc-900/80 hover:bg-zinc-800 text-white/90 text-xs font-mono tracking-wider rounded-full backdrop-blur-md border border-white/10 transition-colors flex items-center space-x-2 shadow-lg">
+                            <i data-lucide="rotate-cw" class="w-3.5 h-3.5 animate-spin-slow"></i>
+                            <span id="rotate-status-txt">STABILIZED</span>
+                        </button>
+                        <button onclick="resetCamera()" class="p-2.5 bg-zinc-900/80 hover:bg-zinc-800 text-white/90 rounded-full backdrop-blur-md border border-white/10 transition-colors shadow-lg" title="Reset Camera Location">
+                            <i data-lucide="maximize" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Holographic CAD Scale Indicator Overlay -->
+                    <div class="absolute bottom-6 left-6 pointer-events-none font-mono text-[10px] text-zinc-400/80 bg-zinc-950/40 p-4 rounded-xl border border-white/5 backdrop-blur-sm space-y-1">
+                        <div>SCALE: 1 : 500</div>
+                        <div>COORD: 37°33'57.4"N 126°58'43.6"E</div>
+                        <div class="flex items-center space-x-2 pt-1">
+                            <span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                            <span>MODEL: ACTIVE_RENDER_MESH</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ASYMMETRIC PROJECT ARCHIVES (Fluid Editorial Magazine Grid) -->
+    <section id="editorial" class="py-24 md:py-32 bg-[#050507]">
+        <div class="max-w-full mx-auto px-6 md:px-12 lg:px-20">
+            
+            <!-- Headline block with custom architectural design filters -->
+            <div class="flex flex-col xl:flex-row justify-between items-start xl:items-end border-b border-white/10 pb-12 mb-16">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-mono tracking-widest text-zinc-500 uppercase">// PHYSICAL ARCHIVES</span>
+                    <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight mt-4">
+                        SELECTED WORKGRID
+                    </h2>
+                </div>
+                
+                <!-- Pure Minimalist Text Filters (BIG.dk aesthetic) -->
+                <div class="flex flex-wrap gap-2 mt-8 xl:mt-0 font-mono text-xs tracking-wider">
+                    <button onclick="filterProjects('all')" id="filter-all" class="filter-btn px-5 py-2.5 rounded-full bg-white text-black font-semibold custom-transition">
+                        [ ALL WORKS ]
+                    </button>
+                    <button onclick="filterProjects('culture')" id="filter-culture" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 hover:border-white text-zinc-400 hover:text-white custom-transition">
+                        CULTURAL
+                    </button>
+                    <button onclick="filterProjects('residential')" id="filter-residential" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 hover:border-white text-zinc-400 hover:text-white custom-transition">
+                        RESIDENTIAL
+                    </button>
+                    <button onclick="filterProjects('workspace')" id="filter-workspace" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 hover:border-white text-zinc-400 hover:text-white custom-transition">
+                        WORKSPACE
+                    </button>
+                    <button onclick="filterProjects('masterplan')" id="filter-masterplan" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 hover:border-white text-zinc-400 hover:text-white custom-transition">
+                        MASTERPLANS
+                    </button>
+                </div>
+            </div>
+
+            <!-- ASYMMETRIC MASONRY-LIKE GRID CONTAINER -->
+            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 transition-all duration-700">
+                <!-- Projects injected by JS to construct highly sophisticated asymmetrical widths dynamically -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- IMMERSIVE EXPERIMENT DETAILS (Slide-in Panel) -->
+    <div id="project-modal" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity" onclick="closeProjectModal()"></div>
+
+        <!-- Right Side Overlapping Container -->
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
+            <div class="w-screen max-w-3xl bg-[#09090c] border-l border-white/10 flex flex-col justify-between shadow-2xl relative">
+                <!-- Close Button -->
+                <button onclick="closeProjectModal()" class="absolute top-6 right-6 bg-white/5 hover:bg-white/15 hover:text-architect-accent border border-white/10 text-white p-3 rounded-full z-50 custom-transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+
+                <!-- Scrollable Body Content -->
+                <div class="flex-1 overflow-y-auto custom-scrollbar p-8 md:p-14">
+                    <div class="mb-4 flex items-center space-x-3">
+                        <span id="modal-category" class="bg-architect-accent text-white text-[10px] font-mono tracking-widest px-3 py-1 rounded">CATEGORY</span>
+                        <span id="modal-location" class="text-xs text-zinc-400 font-mono tracking-wider">SEOUL, KR</span>
+                    </div>
+
+                    <h3 id="modal-title" class="font-display text-4xl md:text-6xl font-black uppercase tracking-tight mb-6">
+                        PROJECT TITLE
+                    </h3>
+                    
+                    <p id="modal-summary" class="text-lg md:text-xl text-zinc-300 leading-relaxed font-light mb-10 border-l-2 border-architect-accent pl-4 italic">
+                        Summary statement of pure vision
+                    </p>
+
+                    <!-- Massive Project Render Image -->
+                    <div class="w-full aspect-[16/10] overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 mb-10 shadow-xl">
+                        <img id="modal-hero-img" src="" alt="Project Visual Preview" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- Technical Specs Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                        <div class="p-4 bg-white/[0.02] border border-white/5 rounded-xl text-center">
+                            <span class="block text-zinc-500 font-mono text-[9px] uppercase tracking-wider">Client</span>
+                            <span id="modal-spec-client" class="font-bold text-white mt-1 block text-sm">Metropolitan</span>
+                        </div>
+                        <div class="p-4 bg-white/[0.02] border border-white/5 rounded-xl text-center">
+                            <span class="block text-zinc-500 font-mono text-[9px] uppercase tracking-wider">Floor Area</span>
+                            <span id="modal-spec-area" class="font-bold text-white mt-1 block text-sm">34,000 m²</span>
+                        </div>
+                        <div class="p-4 bg-white/[0.02] border border-white/5 rounded-xl text-center">
+                            <span class="block text-zinc-500 font-mono text-[9px] uppercase tracking-wider">Co-Creator</span>
+                            <span id="modal-spec-collab" class="font-bold text-white mt-1 block text-sm">Buro Happold</span>
+                        </div>
+                        <div class="p-4 bg-white/[0.02] border border-white/5 rounded-xl text-center">
+                            <span class="block text-zinc-500 font-mono text-[9px] uppercase tracking-wider">Year Completed</span>
+                            <span id="modal-spec-status" class="font-bold text-white mt-1 block text-sm">2026</span>
+                        </div>
+                    </div>
+
+                    <!-- Philosophy Text Blocks -->
+                    <div class="space-y-6 text-sm md:text-base text-zinc-300 leading-relaxed font-light">
+                        <h4 class="text-lg font-display font-bold text-white uppercase tracking-wider border-b border-white/10 pb-2">DESIGN METRICS</h4>
+                        <p id="modal-desc-p1">
+                            Spatial layouts and fluid elements integrated with natural eco corridors to redefine public workspace frameworks.
+                        </p>
+                        <p id="modal-desc-p2">
+                            Passive lighting and dynamic ventilation configurations optimized to satisfy extreme environmental regulations without giving up high-concept architectural fantasies.
+                        </p>
+                    </div>
+
+                    <!-- Concept Wire Diagrams Block -->
+                    <div class="mt-12 border-t border-white/10 pt-10">
+                        <h4 class="text-lg font-display font-bold text-white uppercase tracking-wider mb-6">DIAGRAMMATIC STEPS</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white/[0.02] border border-white/5 p-5 rounded-xl text-center">
+                                <span class="text-xs font-mono text-architect-accent block mb-2">01 / Mass Setup</span>
+                                <div class="w-full h-16 flex items-center justify-center bg-zinc-950/80 rounded border border-white/5">
+                                    <i data-lucide="box" class="w-6 h-6 text-zinc-500"></i>
+                                </div>
+                            </div>
+                            <div class="bg-white/[0.02] border border-white/5 p-5 rounded-xl text-center">
+                                <span class="text-xs font-mono text-architect-accent block mb-2">02 / Solar Slashing</span>
+                                <div class="w-full h-16 flex items-center justify-center bg-zinc-950/80 rounded border border-white/5">
+                                    <i data-lucide="scissors" class="w-6 h-6 text-zinc-500"></i>
+                                </div>
+                            </div>
+                            <div class="bg-white/[0.02] border border-white/5 p-5 rounded-xl text-center">
+                                <span class="text-xs font-mono text-architect-accent block mb-2">03 / Bio Insertion</span>
+                                <div class="w-full h-16 flex items-center justify-center bg-zinc-950/80 rounded border border-white/5">
+                                    <i data-lucide="trees" class="w-6 h-6 text-zinc-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Inquiry Button inside modal -->
+                <div class="border-t border-white/10 p-6 bg-zinc-950 flex items-center justify-between">
+                    <div>
+                        <span class="text-[9px] text-zinc-500 font-mono">ENHANCED TECHNICAL DATA</span>
+                        <p class="text-xs text-white mt-0.5">Need detailed blueprint vectors?</p>
+                    </div>
+                    <a href="#contact" onclick="closeProjectModal()" class="px-5 py-3 bg-white hover:bg-architect-accent text-black hover:text-white rounded-full font-mono text-xs font-semibold custom-transition">
+                        Inquire Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BRAND MANIFESTO SECTION (Pure BIG Style "Yes is More") -->
+    <section id="manifesto" class="py-24 md:py-32 bg-[#08080a] border-t border-b border-white/5">
+        <div class="max-w-full mx-auto px-6 md:px-12 lg:px-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left Title Column -->
+                <div class="lg:col-span-4">
+                    <span class="text-xs font-mono tracking-widest text-zinc-500 uppercase">// CORE PRINCIPLES</span>
+                    <h2 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tight mt-3">
+                        YES <br> IS MORE.
+                    </h2>
+                    <p class="text-xs text-zinc-500 font-mono mt-8 uppercase tracking-widest">// THE THREE PILLARS OF ACTION</p>
+                </div>
+
+                <!-- Right Editorial Blocks -->
+                <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Principle card 01 -->
+                    <div class="group p-8 bg-zinc-950 border border-white/5 hover:border-architect-accent/40 rounded-2xl custom-transition flex flex-col justify-between min-h-[320px]">
+                        <div>
+                            <span class="font-display text-5xl font-extrabold text-white/5 group-hover:text-architect-accent/20 custom-transition">01</span>
+                            <h3 class="font-display text-xl font-bold uppercase tracking-tight mt-4 text-white">PRAGMATIC UTOPIA</h3>
+                            <p class="text-xs text-zinc-400 mt-4 leading-relaxed font-light">
+                                불가능해 보이는 완벽주의적 미래 유토피아 비전과 대지 조건에 대응하는 공학적 디테일 사이의 단절을 메꿉니다. 가장 실용적인 해답 안에 급진적인 아름다움을 녹여냅니다.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-architect-accent font-mono uppercase tracking-widest mt-6">실천적 유토피아</span>
+                    </div>
+
+                    <!-- Principle card 02 -->
+                    <div class="group p-8 bg-zinc-950 border border-white/5 hover:border-architect-accent/40 rounded-2xl custom-transition flex flex-col justify-between min-h-[320px]">
+                        <div>
+                            <span class="font-display text-5xl font-extrabold text-white/5 group-hover:text-architect-accent/20 custom-transition">02</span>
+                            <h3 class="font-display text-xl font-bold uppercase tracking-tight mt-4 text-white">ORGANIC CYBERNETICS</h3>
+                            <p class="text-xs text-zinc-400 mt-4 leading-relaxed font-light">
+                                건축물을 단순하게 서 있는 조형물이 아닌 대지의 비, 공기, 바람을 빨아들여 순환 시스템에 흡수하는 거대한 탄소 유기 파빌리온처럼 설계합니다.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-architect-accent font-mono uppercase tracking-widest mt-6">생태 유기적 조화</span>
+                    </div>
+
+                    <!-- Principle card 03 -->
+                    <div class="group p-8 bg-zinc-950 border border-white/5 hover:border-architect-accent/40 rounded-2xl custom-transition flex flex-col justify-between min-h-[320px]">
+                        <div>
+                            <span class="font-display text-5xl font-extrabold text-white/5 group-hover:text-architect-accent/20 custom-transition">03</span>
+                            <h3 class="font-display text-xl font-bold uppercase tracking-tight mt-4 text-white">DIAGRAM CODE</h3>
+                            <p class="text-xs text-zinc-400 mt-4 leading-relaxed font-light">
+                                난해하게 암호화된 기술 설명을 단 한 눈에 누구나 이해하고 전율할 수 있는 정밀 다이어그램 그래픽 구조로 해독합니다. 소통의 명료함이 곧 최고의 마감입니다.
+                            </p>
+                        </div>
+                        <span class="text-[9px] text-architect-accent font-mono uppercase tracking-widest mt-6">투명한 소통</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- IMMERSIVE CONTACT SECTION (No PPT elements) -->
+    <section id="contact" class="py-24 md:py-32 bg-[#050507] relative overflow-hidden">
+        <div class="max-w-full mx-auto px-6 md:px-12 lg:px-20 relative z-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+                
+                <!-- Left Details -->
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-mono tracking-widest text-zinc-500 uppercase">// SPACE COLLABORATION</span>
+                        <h2 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tight mt-3 mb-6">
+                            BUILD YOUR <br>CONCEPT.
+                        </h2>
+                        <p class="text-sm md:text-base text-zinc-400 leading-relaxed max-w-md">
+                            현실적인 도심 법규와 생태적 대안 사이에서 완벽한 비정형 해법이 필요하시다면 STUDIO_K의 3D 공간 엔지니어들과 의논하십시오.
+                        </p>
+                    </div>
+
+                    <!-- Minimalist contact metadata cards -->
+                    <div class="mt-12 space-y-4 font-mono text-xs">
+                        <div class="flex items-center space-x-3 p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                            <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-architect-accent">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </span>
+                            <span class="text-white">hello@studio-k-arch.com</span>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                            <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-architect-accent">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                            </span>
+                            <span class="text-white">+82 (0)2-541-9988</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Form Box (Glazing glassmorphism style) -->
+                <div class="lg:col-span-7 bg-zinc-950/80 border border-white/5 p-6 md:p-12 rounded-3xl shadow-2xl relative">
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-[10px] uppercase font-mono tracking-wider text-zinc-400 mb-2">PARTNER NAME</label>
+                                <input type="text" required name="name" class="w-full bg-white/[0.02] border border-white/10 focus:border-architect-accent focus:ring-1 focus:ring-architect-accent px-4 py-3.5 text-sm text-white rounded-xl transition-all focus:outline-none" placeholder="Enter name">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase font-mono tracking-wider text-zinc-400 mb-2">EMAIL ADDRESS</label>
+                                <input type="email" required name="email" class="w-full bg-white/[0.02] border border-white/10 focus:border-architect-accent focus:ring-1 focus:ring-architect-accent px-4 py-3.5 text-sm text-white rounded-xl transition-all focus:outline-none" placeholder="example@domain.com">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase font-mono tracking-wider text-zinc-400 mb-2">PROJECT CLASSIFICATION</label>
+                            <select name="project_type" class="w-full bg-zinc-900 border border-white/10 focus:border-architect-accent focus:ring-1 focus:ring-architect-accent px-4 py-3.5 text-sm text-white rounded-xl transition-all focus:outline-none">
+                                <option value="cultural">CULTURAL MUSEUM / EXHIBITION</option>
+                                <option value="residential">RESIDENTIAL COMPLEX / LUXURY VILLA</option>
+                                <option value="workspace">METROPOLITAN COMMERCE OFFICE</option>
+                                <option value="masterplan">REGIONAL ECOLOGICAL MASTERPLAN</option>
+                                <option value="other">OTHER CUSTOM CONCEPTS</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase font-mono tracking-wider text-zinc-400 mb-2">VISION MESSAGE & PARAMETERS</label>
+                            <textarea required name="message" rows="5" class="w-full bg-white/[0.02] border border-white/10 focus:border-architect-accent focus:ring-1 focus:ring-architect-accent p-4 text-sm text-white rounded-xl transition-all focus:outline-none resize-none" placeholder="Describe the physical location limits, targeted structural areas, and any architectural concepts you want us to challenge."></textarea>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <input type="checkbox" required id="agree" class="mt-1 w-4 h-4 bg-zinc-900 border-white/10 text-architect-accent focus:ring-architect-accent rounded">
+                            <label for="agree" class="text-xs text-zinc-500 leading-normal select-none">
+                                I agree to share basic concept scopes to initiate interactive CAD workshops.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-white hover:bg-architect-accent text-black hover:text-white font-bold uppercase tracking-widest text-xs rounded-xl custom-transition shadow-lg">
+                            TRANSMIT SPECIFICATION
+                        </button>
+                    </form>
+                    
+                    <!-- Inner Success Notification Toast -->
+                    <div id="toast-success" class="hidden mt-6 bg-blue-950/50 border border-blue-500/50 text-blue-300 p-4 rounded-xl text-xs font-mono flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-blue-400"></i>
+                            <span>SPECIFICATION SENT. AN ARCHITECT WILL CONTACT YOU SHORTLY.</span>
+                        </div>
+                        <button onclick="document.getElementById('toast-success').classList.add('hidden')" class="text-blue-400 font-bold hover:text-blue-100">×</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#050507] border-t border-white/10 py-12 px-6 md:px-12">
+        <div class="max-w-full mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 text-[10px] text-zinc-500 font-mono">
+            <div class="text-center md:text-left">
+                <span class="font-display text-sm font-black text-white tracking-wider block mb-1">STUDIO_K / SYSTEM</span>
+                <p>© 2026 STUDIO_K. Engineered dynamically. All rights reserved.</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6 uppercase tracking-widest">
+                <a href="#lab" class="hover:text-white custom-transition">3D LAB</a>
+                <a href="#editorial" class="hover:text-white custom-transition">ARCHIVES</a>
+                <a href="#manifesto" class="hover:text-white custom-transition">MANIFESTO</a>
+                <a href="#contact" class="hover:text-white custom-transition">TALK</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // GLOBAL THREE.JS CORE
+        let scene, camera, renderer, baseVolume, sliceMesh1, terraceGroup, greenGroup;
+        let activeStep = 1;
+        let isAutoRotate = true;
+        const container = document.getElementById('canvas-container');
+
+        window.onload = function() {
+            init3D();
+            animate();
+            
+            // Build non-PPT Asymmetric grid archives
+            renderProjectGrid('all');
+            
+            // Build Lucide elements
+            lucide.createIcons();
+        }
+
+        function init3D() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050507); // Perfect Dark matching system canvas
+
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+            camera.position.set(22, 18, 22);
+            camera.lookAt(0, 2, 0);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // Lighting architecture setup
+            const ambient = new THREE.AmbientLight(0xffffff, 0.45);
+            scene.add(ambient);
+
+            // High angle bright key light (for blueprint schematic shadows)
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.75);
+            dirLight.position.set(15, 30, 15);
+            dirLight.castShadow = true;
+            dirLight.shadow.mapSize.width = 1024;
+            dirLight.shadow.mapSize.height = 1024;
+            dirLight.shadow.camera.near = 0.5;
+            dirLight.shadow.camera.far = 100;
+            const d = 10;
+            dirLight.shadow.camera.left = -d;
+            dirLight.shadow.camera.right = d;
+            dirLight.shadow.camera.top = d;
+            dirLight.shadow.camera.bottom = -d;
+            scene.add(dirLight);
+
+            // Floor Grid Helper (Infinite grid look, dark neon accent styling)
+            const gridHelper = new THREE.GridHelper(32, 32, 0x3b82f6, 0x1d1d23);
+            gridHelper.position.y = -0.05;
+            scene.add(gridHelper);
+
+            // Subtle floor reflection surface
+            const floorGeo = new THREE.PlaneGeometry(50, 50);
+            const floorMat = new THREE.MeshStandardMaterial({ 
+                color: 0x050507, 
+                roughness: 0.8,
+                metalness: 0.1 
+            });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            scene.add(floor);
+
+            buildArchitecturalSteps();
+
+            // Set Initial morph step
+            changeFormStep(1);
+
+            window.addEventListener('resize', onWindowResize);
+            setupCanvasDragger();
+        }
+
+        function buildArchitecturalSteps() {
+            // White clean architectural model plaster material
+            const plasterMat = new THREE.MeshStandardMaterial({ 
+                color: 0xf3f4f6, 
+                roughness: 0.5, 
+                metalness: 0.05
+            });
+            
+            // Eco garden green grass material
+            const greenMat = new THREE.MeshStandardMaterial({ 
+                color: 0x10b981, 
+                roughness: 0.9,
+                metalness: 0.0
+            });
+
+            // Modern Dark tinted glass windows
+            const blueGlassMat = new THREE.MeshStandardMaterial({ 
+                color: 0x3b82f6, 
+                roughness: 0.05, 
+                metalness: 0.95,
+                transparent: true,
+                opacity: 0.75
+            });
+
+            // ====================
+            // MODEL 1: BASE SOLID METERING BOX
+            // ====================
+            baseVolume = new THREE.Group();
+            
+            const coreBox = new THREE.Mesh(new THREE.BoxGeometry(8, 8, 8), plasterMat);
+            coreBox.position.y = 4;
+            coreBox.castShadow = true;
+            coreBox.receiveShadow = true;
+            baseVolume.add(coreBox);
+
+            // Blueprint wireframe outlines
+            const outline = new THREE.LineSegments(
+                new THREE.EdgesGeometry(new THREE.BoxGeometry(8.05, 8.05, 8.05)),
+                new THREE.LineBasicMaterial({ color: 0x3b82f6, linewidth: 1.5 })
+            );
+            outline.position.y = 4;
+            baseVolume.add(outline);
+            scene.add(baseVolume);
+
+            // ====================
+            // MODEL 2: SOUTH SLOPE SLICING MESH
+            // ====================
+            sliceMesh1 = new THREE.Group();
+            
+            const bottomPart = new THREE.Mesh(new THREE.BoxGeometry(8, 3.8, 8), plasterMat);
+            bottomPart.position.set(0, 1.9, 0);
+            bottomPart.castShadow = true;
+            bottomPart.receiveShadow = true;
+            sliceMesh1.add(bottomPart);
+
+            // Angled slice block proxies
+            const topSlice = new THREE.Mesh(new THREE.ConeGeometry(5.6, 4.2, 4), plasterMat);
+            topSlice.rotation.y = Math.PI / 4;
+            topSlice.rotation.x = -Math.PI / 4;
+            topSlice.position.set(0, 5.2, 0);
+            topSlice.castShadow = true;
+            sliceMesh1.add(topSlice);
+
+            scene.add(sliceMesh1);
+
+            // ====================
+            // MODEL 3: SHIFTING STEP TERRACE
+            // ====================
+            terraceGroup = new THREE.Group();
+            for (let i = 0; i < 3; i++) {
+                const w = 8 - (i * 2);
+                const step = new THREE.Mesh(new THREE.BoxGeometry(w, 2.5, 8), plasterMat);
+                step.position.set(i * 1.25 - 1.25, 1.25 + (i * 2.5), 0);
+                step.castShadow = true;
+                step.receiveShadow = true;
+                terraceGroup.add(step);
+
+                const windowGlaze = new THREE.Mesh(new THREE.BoxGeometry(w - 0.2, 0.8, 8.1), blueGlassMat);
+                windowGlaze.position.set(i * 1.25 - 1.25, i * 2.5 + 2.5, 0);
+                terraceGroup.add(windowGlaze);
+            }
+            scene.add(terraceGroup);
+
+            // ====================
+            // MODEL 4: URBAN FOREST COMPLETED SYSTEM
+            // ====================
+            greenGroup = new THREE.Group();
+            for (let i = 0; i < 3; i++) {
+                const w = 8 - (i * 2);
+                const step = new THREE.Mesh(new THREE.BoxGeometry(w, 2.5, 8), plasterMat);
+                step.position.set(i * 1.25 - 1.25, 1.25 + (i * 2.5), 0);
+                step.castShadow = true;
+                step.receiveShadow = true;
+                greenGroup.add(step);
+
+                // Adding Eco garden caps on each step
+                const lawn = new THREE.Mesh(new THREE.BoxGeometry(w - 0.1, 0.2, 7.8), greenMat);
+                lawn.position.set(i * 1.25 - 1.25, 2.5 + (i * 2.5) + 0.1, 0);
+                greenGroup.add(lawn);
+
+                // Add minimal volumetric trees
+                if (i < 2) {
+                    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.8), plasterMat);
+                    const leaves = new THREE.Mesh(new THREE.DodecahedronGeometry(0.35), greenMat);
+
+                    const xPos = (i * 1.25 - 1.25) + (w / 2) - 1.2;
+                    const zPos = 2.4;
+
+                    trunk.position.set(xPos, 2.5 + (i * 2.5) + 0.4, zPos);
+                    leaves.position.set(xPos, 2.5 + (i * 2.5) + 0.8, zPos);
+
+                    greenGroup.add(trunk);
+                    greenGroup.add(leaves);
+                }
+            }
+            scene.add(greenGroup);
+        }
+
+        // TRIGGER SLIDER CHANGE
+        function handleSliderChange(val) {
+            changeFormStep(parseInt(val));
+        }
+
+        function changeFormStep(step) {
+            activeStep = step;
+
+            baseVolume.visible = false;
+            sliceMesh1.visible = false;
+            terraceGroup.visible = false;
+            greenGroup.visible = false;
+
+            const slider = document.getElementById('form-slider');
+            if (slider && parseInt(slider.value) !== step) {
+                slider.value = step;
+            }
+
+            let stageLabel = "STAGE 0" + step;
+            let explanationText = "";
+            let massVal = "100%";
+            let solarVal = "45%";
+            let carbonVal = "Negligible";
+
+            switch(step) {
+                case 1:
+                    baseVolume.visible = true;
+                    explanationText = "SYSTEM INITIALIZED: Maximized static volume boundary set based on regional guidelines (80m cube limits). Standard structural massing.";
+                    massVal = "100% (Solid Plaster)";
+                    solarVal = "38% (Limited Base)";
+                    carbonVal = "0.0 t/yr CO2";
+                    break;
+                case 2:
+                    sliceMesh1.visible = true;
+                    explanationText = "SOLAR SLAING DEFORMATION: Slashed 38 degrees along southern sky paths to allow deep wind passage and protect neighborhood daylight access.";
+                    massVal = "76% (Optimized)";
+                    solarVal = "68% (Enhanced Light)";
+                    carbonVal = "1.2 t/yr CO2";
+                    break;
+                case 3:
+                    terraceGroup.visible = true;
+                    explanationText = "MODULAR LAYER SPLITTING: Sliced plane segmented into three terrace floor plates, shifting outwards. All levels gain panoramic balconies.";
+                    massVal = "68% (Modular)";
+                    solarVal = "82% (Excellent Direct)";
+                    carbonVal = "2.8 t/yr CO2";
+                    break;
+                case 4:
+                    greenGroup.visible = true;
+                    explanationText = "ECO SYSTEM INTRUSION: Rooftop layers replaced with rain-absorbing soil filters and localized trees. Restores urban heating variables by 3.2°C.";
+                    massVal = "64% (Balanced)";
+                    solarVal = "94% (Full Passive)";
+                    carbonVal = "-45.8 t/yr CO2 (Active)";
+                    break;
+            }
+
+            document.getElementById('active-stage-label').textContent = stageLabel;
+            document.getElementById('analysis-log').textContent = explanationText;
+            document.getElementById('param-mass').textContent = massVal;
+            document.getElementById('param-solar').textContent = solarVal;
+            document.getElementById('param-carbon').textContent = carbonVal;
+        }
+
+        function autoRotateToggle() {
+            isAutoRotate = !isAutoRotate;
+            const btn = document.getElementById('btn-rotate');
+            const txt = document.getElementById('rotate-status-txt');
+            
+            if (isAutoRotate) {
+                txt.textContent = "STABILIZED";
+                btn.classList.replace('bg-zinc-900/50', 'bg-zinc-900/80');
+            } else {
+                txt.textContent = "MANUAL CONTROL";
+                btn.classList.replace('bg-zinc-900/80', 'bg-zinc-900/50');
+            }
+        }
+
+        function resetCamera() {
+            camera.position.set(22, 18, 22);
+            camera.lookAt(0, 2, 0);
+        }
+
+        let isDragging = false;
+        let prevMouse = { x: 0, y: 0 };
+
+        function setupCanvasDragger() {
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouse = { x: e.clientX, y: e.clientY };
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const delta = { x: e.clientX - prevMouse.x, y: e.clientY - prevMouse.y };
+
+                const radius = Math.sqrt(camera.position.x**2 + camera.position.z**2);
+                let angle = Math.atan2(camera.position.z, camera.position.x);
+
+                angle -= delta.x * 0.007;
+                camera.position.x = radius * Math.cos(angle);
+                camera.position.z = radius * Math.sin(angle);
+                camera.position.y += delta.y * 0.08;
+                camera.position.y = Math.max(2, Math.min(camera.position.y, 35));
+
+                camera.lookAt(0, 2, 0);
+                prevMouse = { x: e.clientX, y: e.clientY };
+
+                if (isAutoRotate) autoRotateToggle();
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            // Touch support for modern devices
+            container.addEventListener('touchstart', (e) => {
+                if(e.touches.length === 1) {
+                    isDragging = true;
+                    prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const delta = { x: e.touches[0].clientX - prevMouse.x, y: e.touches[0].clientY - prevMouse.y };
+
+                const radius = Math.sqrt(camera.position.x**2 + camera.position.z**2);
+                let angle = Math.atan2(camera.position.z, camera.position.x);
+
+                angle -= delta.x * 0.008;
+                camera.position.x = radius * Math.cos(angle);
+                camera.position.z = radius * Math.sin(angle);
+                camera.position.y += delta.y * 0.09;
+                camera.position.y = Math.max(2, Math.min(camera.position.y, 35));
+
+                camera.lookAt(0, 2, 0);
+                prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+
+                if (isAutoRotate) autoRotateToggle();
+            });
+
+            container.addEventListener('touchend', () => { isDragging = false; });
+        }
+
+        function onWindowResize() {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isAutoRotate && !isDragging) {
+                const speed = 0.0035;
+                const x = camera.position.x;
+                const z = camera.position.z;
+                camera.position.x = x * Math.cos(speed) - z * Math.sin(speed);
+                camera.position.z = x * Math.sin(speed) + z * Math.cos(speed);
+                camera.lookAt(0, 2, 0);
+            }
+
+            // High-end volumetric hovering pulse
+            const t = Date.now() * 0.0012;
+            const h = Math.sin(t) * 0.18;
+            if (baseVolume.visible) baseVolume.position.y = h;
+            if (sliceMesh1.visible) sliceMesh1.position.y = h;
+            if (terraceGroup.visible) terraceGroup.position.y = h;
+            if (greenGroup.visible) greenGroup.position.y = h;
+
+            renderer.render(scene, camera);
+        }
+    </script>
+
+
+    <script>
+        const projectsData = [
+            {
+                id: "p1",
+                title: "HYPER-LOOP LABS",
+                category: "workspace",
+                categoryKo: "RESEARCH HUB",
+                location: "SEOUL, KR",
+                year: "2026",
+                area: "45,000 m²",
+                client: "S-Technology Center",
+                collaborator: "Arup Structures",
+                summary: "A continuous spiraling workspace structure integrating internal climate control ramps and public sky park loops.",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+                desc1: "Designed to host research teams while functioning as an public landscape loop that allows citizens to stroll up onto the roof without stepping foot indoors.",
+                desc2: "Passive energy features work collaboratively with the curved profile, diverting high winter wind loads while storing rainfall within a decentralized organic filter layer."
+            },
+            {
+                id: "p2",
+                title: "HELIX ESCAPE VILLA",
+                category: "residential",
+                categoryKo: "ECO RESIDENCE",
+                location: "JEJU, KR",
+                year: "2025",
+                area: "3,200 m²",
+                client: "Jeju Escape Group",
+                collaborator: "Jeju Bio Systems",
+                summary: "Volumetric residential pods structured along high natural ridge slopes with zero damage to terrain등고선.",
+                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+                desc1: "By utilizing offset modular blocks matching regional slopes, every individual home secures absolute ocean views and complete privacy.",
+                desc2: "Exterior details utilize porous basalt stones, blending visual aesthetics with local geological frameworks while protecting regional vegetation."
+            },
+            {
+                id: "p3",
+                title: "WAVE ART MUSEUM",
+                category: "culture",
+                categoryKo: "CULTURE GALLERY",
+                location: "BUSAN, KR",
+                year: "2024",
+                area: "12,500 m²",
+                client: "Busan Culture Dept",
+                collaborator: "Marine Engineers Inc.",
+                summary: "A dynamic cantilever steel canopy framing waterfront vistas without any internal blockades.",
+                image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                desc1: "Suspended safely over public tidal lines, utilizing extreme double-cantilever steel spans to frame completely barrier-free exhibition layouts.",
+                desc2: "Exterior skins are wrapped with satin metallic structures that map regional sunset reflections, shifting architectural mood in real-time."
+            },
+            {
+                id: "p4",
+                title: "CLOUD WATERFRONT PORT",
+                category: "masterplan",
+                categoryKo: "MASTERPLAN",
+                location: "INCHEON, KR",
+                year: "2026",
+                area: "180,000 m²",
+                client: "Incheon Port Development",
+                collaborator: "Urban Matrix",
+                summary: "Restoring discarded dry dock industrial bases into modular public ocean parks.",
+                image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+                desc1: "By injecting a floating walkway network above old docks, the plan bridges the dense inner city cleanly to historical deep-water lines.",
+                desc2: "Constructed utilizing off-site modular platforms that shift fluidly based on tide fluctuations, protecting recreational accessibility."
+            }
+        ];
+
+        // RENDER PROJECT CARDS WITH ASYMMETRIC SPAN CLASSES (Anti-PPT look)
+        function renderProjectGrid(categoryFilter) {
+            const grid = document.getElementById('project-grid');
+            grid.innerHTML = '';
+
+            const filtered = categoryFilter === 'all' 
+                ? projectsData 
+                : projectsData.filter(p => p.category === categoryFilter);
+
+            filtered.forEach((p, idx) => {
+                // Alternating visual column layouts for an dynamic, magazine-style editorial feeling
+                let spanClass = "lg:col-span-6"; // Default
+                if (idx % 3 === 0) {
+                    spanClass = "lg:col-span-8"; // Extra wide
+                } else if (idx % 3 === 1) {
+                    spanClass = "lg:col-span-4"; // Compact vertical
+                }
+
+                const card = document.createElement('div');
+                card.className = `${spanClass} group relative bg-zinc-950 border border-white/5 rounded-3xl overflow-hidden shadow-lg hover:border-white/10 custom-transition cursor-pointer`;
+                card.setAttribute('onclick', `openProjectModal('${p.id}')`);
+
+                card.innerHTML = `
+                    <!-- Massive Immersive Image Area -->
+                    <div class="relative aspect-[16/10] w-full overflow-hidden bg-zinc-900">
+                        <img src="${p.image}" alt="${p.title}" class="project-card-image w-full h-full object-cover opacity-80 group-hover:opacity-100" onerror="this.src='https://placehold.co/800x600/121216/aaa?text=${p.title}'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        
+                        <!-- Floated category tag -->
+                        <span class="absolute top-4 left-4 bg-zinc-950/85 backdrop-blur-md text-white border border-white/15 text-[8px] font-mono tracking-widest px-3 py-1 rounded-full">
+                            ${p.categoryKo}
+                        </span>
+                    </div>
+
+                    <!-- Details Box -->
+                    <div class="p-6 md:p-8 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center text-zinc-500 font-mono text-[9px] tracking-widest uppercase">
+                                <span>${p.location}</span>
+                                <span>${p.year}</span>
+                            </div>
+                            <h4 class="font-display text-2xl md:text-3xl font-black uppercase mt-3 tracking-tight group-hover:text-architect-accent custom-transition">
+                                ${p.title}
+                            </h4>
+                            <p class="text-xs text-zinc-400 mt-2 leading-relaxed font-light">
+                                ${p.summary}
+                            </p>
+                        </div>
+
+                        <!-- Reveal arrow -->
+                        <div class="flex items-center space-x-2 mt-6 text-xs font-mono text-zinc-500 group-hover:text-white custom-transition">
+                            <span>EXPLORE CAD MODEL SPEC</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 custom-transition"></i>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // FILTER CLICKS
+        function filterProjects(cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn px-5 py-2.5 rounded-full border border-white/10 hover:border-white text-zinc-400 hover:text-white custom-transition font-mono";
+            });
+
+            const activeBtn = document.getElementById(`filter-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = "filter-btn px-5 py-2.5 rounded-full bg-white text-black font-semibold custom-transition font-mono";
+            }
+
+            const grid = document.getElementById('project-grid');
+            grid.style.opacity = '0';
+            grid.style.transform = 'translateY(15px)';
+
+            setTimeout(() => {
+                renderProjectGrid(cat);
+                grid.style.opacity = '1';
+                grid.style.transform = 'translateY(0px)';
+            }, 250);
+        }
+
+        // POPULATE DETAIL DRAWER PANEL
+        function openProjectModal(id) {
+            const project = projectsData.find(p => p.id === id);
+            if (!project) return;
+
+            document.getElementById('modal-category').textContent = project.categoryKo;
+            document.getElementById('modal-location').textContent = project.location;
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-summary').textContent = `"${project.summary}"`;
+            document.getElementById('modal-hero-img').src = project.image;
+            document.getElementById('modal-hero-img').onerror = function() {
+                this.src = `https://placehold.co/800x600/121216/aaa?text=${project.title}`;
+            };
+
+            document.getElementById('modal-spec-client').textContent = project.client;
+            document.getElementById('modal-spec-area').textContent = project.area;
+            document.getElementById('modal-spec-collab').textContent = project.collaborator;
+            document.getElementById('modal-spec-status').textContent = project.year;
+
+            document.getElementById('modal-desc-p1').textContent = project.desc1;
+            document.getElementById('modal-desc-p2').textContent = project.desc2;
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Block external scrolls
+            
+            lucide.createIcons();
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolls
+        }
+
+        // TALK SUBMISSION PROCESSOR
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originText = btn.textContent;
+            btn.textContent = "TRANSMITTING TO STUDIO CORE...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('toast-success').classList.remove('hidden');
+                e.target.reset();
+                btn.textContent = originText;
+                btn.disabled = false;
+            }, 1400);
+        }
+
+        // MOBILE DRAWER HANDLERS
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const menuDrawer = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            menuDrawer.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuDrawer.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
